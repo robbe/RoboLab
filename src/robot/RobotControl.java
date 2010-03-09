@@ -6,35 +6,35 @@ public class RobotControl {
 		
 		Robot rob = new Robot();
 		
-		/* Startet der Roboter auf der Linie? */
-		if(!rob.isOnLine()) {
-			/* Nein.
-			 * Wir müssen die Linie suchen!
-			 * 
-			 * Ablauf:
-			 *   Geradeausfahrten von 1/10 sec.
-			 *   Nachsehen, ob die Linie erreicht wurde
-			 *   ^ 10 mal wiederholen
-			 *   
-			 *   Drehen (welcher Winkel?!)
-			 *   Alles wiederholen
-			 * 
-			 */
-			while(!rob.isOnLine()) {
-				for(int i = 0;i < 10; i++) {
-					while(!rob.isOnLine())
-						rob.travel();
-				}
+		while(true) {	// Achtung: Endlosschleife!
 			
+			/* Auf der Linie fahren. */
+			while(rob.isOnLine() && !rob.hasTouchedRight() && !rob.hasTouchedLeft())
+				rob.travel();
+			
+			/* Robot stoppt - was soll getan werden? */
+			if(!rob.isOnLine()) {
+				
+				// Tue etwas, damit der Roboter auf die Linie zurückfindet
+				
+			} else if(rob.hasTouchedLeft) {
+				
+				rob.rotateRight(90);
+				
+				// Hier kommt der Ultraschallsensor ins Spiel
+				// Hindernis muss umfahren werden 
+				
+			} else if(rob.hasTouchedRight) {
+				
 				rob.rotateLeft(90);
+				
+				// Hier kommt der Ultraschallsensor ins Spiel
+				// Hindernis muss umfahren werden 
+				
 			}
 			
 		}
-		
-		/* Auf der Linie fahren. */
-		while(rob.isOnLine() && !rob.hasTouchedRight() && !rob.hasTouchedLeft())
-			rob.travel();
 	
 	}
-	
+
 }

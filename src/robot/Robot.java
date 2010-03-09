@@ -3,6 +3,8 @@ package robot;
 import lejos.nxt.*;
 
 public class Robot {
+	
+	boolean hasTouchedLeft = false, hasTouchedRight = false;
 
 	/* Eventuell muessen hier noch die Sensoren angepasst werden. */
 	private TouchSensor touchl = new TouchSensor(SensorPort.S1);
@@ -22,6 +24,15 @@ public class Robot {
 		
 		Motor.A.stop();
 		Motor.B.stop();
+		
+	}
+	
+	public void moveBack(int distance) {
+		
+		int degree = 0 - distance;	// Wieviel Drehung ergibt wieviel Weg?
+		
+		Motor.A.rotate(degree);
+		Motor.B.rotate(degree);
 		
 	}
 	
@@ -76,11 +87,15 @@ public class Robot {
 	}
 	
 	public boolean hasTouchedRight() {
-		return touchr.isPressed();
+		if(touchr.isPressed())
+			hasTouchedRight = true;
+		return hasTouchedRight;
 	}
 
 	public boolean hasTouchedLeft() {
-		return touchl.isPressed();
+		if(touchl.isPressed())
+			hasTouchedLeft = true;
+		return hasTouchedLeft;
 	}
 	
 	public boolean hasSonicEcho() {
