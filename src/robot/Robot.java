@@ -1,48 +1,55 @@
 package robot;
 
 import lejos.nxt.*;
-import lejos.robotics.navigation.*;
 
 public class Robot {
 
-	static final float WHEEL_DIAM = 5.5f; 
-	static final float TRACK_W = 12f;
-	static Pilot pil = new Pilot(WHEEL_DIAM,TRACK_W,Motor.A,Motor.B);
+	private TouchSensor touchl = new TouchSensor(SensorPort.S1);
+	private TouchSensor touchr = new TouchSensor(SensorPort.S2);
+	private LightSensor light = new LightSensor(SensorPort.S3);
+	private UltrasonicSensor sonic = new UltrasonicSensor(SensorPort.S4);
 	
-	public void travel() {
-		pil.travel(40);
+	public void travel() throws InterruptedException {
 		
-		/* TODO:
-		 * 
-		 * ActionListener fŸr Sensorik einbauen
-		 * 
-		 */
+		Motor.A.setPower(30);
+		Motor.B.setPower(30);
+		
+		Motor.A.forward();
+		Motor.B.forward();
+		
+		Thread.sleep(100);
+		
+		Motor.A.stop();
+		Motor.B.stop();
 		
 	}
 	
 	public boolean isOnLine() {
 		boolean online = true;
 		
-		/* TODO:
-		 * 
-		 * Logik zur Abfrage ob sich der Roboter
-		 * noch auf der Linie befindet.
-		 * 
-		 * Wenn er die Linie verlŠsst:
-		 * online = false;
-		 * 
-		 */
+		if(light.getLightValue() >= 50)
+			online = false;
 		
 		return online;
 	}
 	
-	/* TODO:
-	 * 
-	 * ActionListener
-	 * -- offlineAction
-	 * -- touchAction
-	 * -- ultrasonicAction
-	 * 
-	 */
+	public boolean hasTouchedRight() {
+		return touchr.isPressed();
+	}
+
+	public boolean hasTouchedLeft() {
+		return touchl.isPressed();
+	}
+	
+	public boolean hasSonicEcho() {
+		
+		/* TODO:
+		 * 
+		 * SuperSonic KungFoo
+		 * 
+		 */
+		
+		return false;
+	}
 	
 }
