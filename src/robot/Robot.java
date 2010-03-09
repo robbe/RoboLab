@@ -4,13 +4,12 @@ import lejos.nxt.*;
 
 public class Robot {
 	
-	boolean hasTouchedLeft = false, hasTouchedRight = false;
+	boolean hasTouched = false;
 
 	/* Eventuell muessen hier noch die Sensoren angepasst werden. */
 	private TouchSensor touchl = new TouchSensor(SensorPort.S1);
 	private TouchSensor touchr = new TouchSensor(SensorPort.S2);
 	private LightSensor light = new LightSensor(SensorPort.S3);
-	private UltrasonicSensor sonic = new UltrasonicSensor(SensorPort.S4);
 	
 	public void travel() throws InterruptedException {
 		
@@ -86,27 +85,10 @@ public class Robot {
 		return online;
 	}
 	
-	public boolean hasTouchedRight() {
-		if(touchr.isPressed())
-			hasTouchedRight = true;
-		return hasTouchedRight;
-	}
-
-	public boolean hasTouchedLeft() {
-		if(touchl.isPressed())
-			hasTouchedLeft = true;
-		return hasTouchedLeft;
-	}
-	
-	public boolean hasSonicEcho() {
-		
-		/* TODO:
-		 * 
-		 * SuperSonic KungFoo
-		 * 
-		 */
-		
-		return false;
+	public boolean hasTouched() {
+		if(touchr.isPressed() || touchl.isPressed())
+			hasTouched = true;
+		return hasTouched;
 	}
 	
 }
