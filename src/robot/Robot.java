@@ -4,12 +4,12 @@ import lejos.nxt.*;
 
 public class Robot {
 	
-	boolean hasTouched = false;
-
-	/* Eventuell muessen hier noch die Sensoren angepasst werden. */
+	boolean hasTouchedLeft = false, hasTouchedRight = false;
+                                                                    
 	private TouchSensor touchl = new TouchSensor(SensorPort.S1);
-	private TouchSensor touchr = new TouchSensor(SensorPort.S2);
+	private TouchSensor touchr = new TouchSensor(SensorPort.S4);
 	private LightSensor light = new LightSensor(SensorPort.S3);
+	private UltrasonicSensor sonic = new UltrasonicSensor(SensorPort.S1);
 	
 	public void travel() throws InterruptedException {
 		
@@ -32,6 +32,29 @@ public class Robot {
 		
 		Motor.A.rotate(degree);
 		Motor.B.rotate(degree);
+		
+	}
+	
+	public void searchLine(int searchDeg) {
+		Thread.sleep(100); //damit er etwas über die Linie hinausschiesst, und nicht darauf stehen bleibt.
+		Motor.A.stop();
+		Motor.B.stop();
+		
+		// nur ein szenario - drehung beginnt immer mit links! -> sollte allgemeiner formuliert werden
+		
+		rotateLeft(searchDeg);		// TODO: es muss eine Zeitbegrenzung eingebaut werden, sodass
+			if (rob.isOnline()) 	// er sich nicht um 180° dreht - zb Methode rotationTime(); 
+			{
+				rob.travel();
+			}
+			else while (!rob.isOnline)
+				{
+				 Motor.A.stop();
+				 Motor.B.stop();
+				 rotateRight(720);
+				}
+		
+		
 		
 	}
 	
@@ -85,10 +108,27 @@ public class Robot {
 		return online;
 	}
 	
-	public boolean hasTouched() {
-		if(touchr.isPressed() || touchl.isPressed())
-			hasTouched = true;
-		return hasTouched;
+	public boolean hasTouchedRight() {
+		if(touchr.isPressed())
+			hasTouchedRight = true;
+		return hasTouchedRight;
+	}
+
+	public boolean hasTouchedLeft() {
+		if(touchl.isPressed())
+			hasTouchedLeft = true;
+		return hasTouchedLeft;
+	}
+	
+	public boolean hasSonicEcho() {
+		
+		/* TODO:
+		 * 
+		 * SuperSonic KungFoo
+		 * 
+		 */
+		
+		return false;
 	}
 	
 }
